@@ -47,9 +47,11 @@ def custom_AR_fit(x, P):
 def create_signals_AR(n, P, interval, inov, N, Fs, freqs, noise):
     D = np.zeros((P+1,n,n))
     D[0,:,:] = np.eye(n)
-    D[P,:,:] = graph_synth(n)*.5
+    D[P,:,:] = graph_synth(n)
     # print(D)
-
+    # make D directed to remove unstableness
+    D[P,:,:] = np.triu(D[P,:,:])
+    D[P,:,:] = [[0,1,0,0,0],[0,0,1,0,0],[0],[],[]]
     x = np.zeros((N,n))
     #x is a sine wave
     for i in range(inov):

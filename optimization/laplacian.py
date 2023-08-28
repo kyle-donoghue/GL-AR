@@ -86,9 +86,9 @@ def create_eq_ineq_vec(N):
 
 freqs = [27, 40, 55, 59, 76]
 Fs = 200
-N = 5
-[approx, y, adj] = create_signals.create_signals_AR(N, 15, 50, 100, 1000, Fs, freqs, .05) # 5 nodes, 10 time lags, 100 samples of inovation, 500 samples total
-
+node_count = 5
+[approx, y, adj] = create_signals.create_signals_AR(node_count, 15, 50, 100, 1000, Fs, freqs, .05) # 5 nodes, 15 time lags, 100 samples of inovation, 500 samples total
+#innovation samples is the length of stimuli, node_count is the number of nodes, P is the number of time lags, N is the total number of samples, interval is the number of samples in each set
 iter = 10
 A, G = create_eq_ineq_mat(5)
 b, h = create_eq_ineq_vec(5)
@@ -112,22 +112,28 @@ mse = np.zeros(len(ratio))
 #     mse[k] = np.mean((mean_adj - adj)**2)/.5
 # print(mse)
 # print(ratio[np.argmin(mse)])
+
+
 np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 ratio = 10
-mean_adj = np.zeros([N,N])
+mean_adj = np.zeros([node_count,node_count])
 for i in range(approx.shape[0]):
     Y = approx[i,:,:].T
     alpha = 1
     beta = 1/ratio
     for i in range(iter):
-        L = solve_L(Y, N, alpha, beta, A, G, b, h, M)
+        L = solve_L(Y, node_count, alpha, beta, A, G, b, h, M)
         Y = solve_Y(L, approx[i,:,:].T, alpha)
     opt_adj = np.diag(np.diag(L))-L
-    opt_adj = .5 * (opt_adj > .2) *np.ones((N,N))
+    opt_adj = .5 * (opt_adj > .2) *np.ones((node_count,node_count))
     mean_adj[:,:] += opt_adj/approx.shape[0]
 print(mean_adj)
+print()
 print(adj)
+
+plt.plot(y)
+plt.show()
 # print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='binary'))
-print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='micro'))
-print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='macro'))
-print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='weighted'))
+# print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='micro'))
+# print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='macro'))
+# print(metrics.f1_score(np.ravel(adj), np.ravel(mean_adj), average='weighted'))
