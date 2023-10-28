@@ -1,0 +1,26 @@
+clc;clear;close all hidden;
+addpath(genpath('../../GL_classes/'));
+%%
+p.pole_variance = .25;
+p.pole_mean = .5;
+p.order = 1;
+%%
+figure;hold;
+for i = 1:20
+    pole_list = max(0, min(.95, (p.pole_variance*randn(p.order,1)+p.pole_mean))).*exp(1j*pi*rand(p.order,1)); % saturate pole to +/- .95
+    pole_list2 = [pole_list;pole_list];
+    pole_list2(length(pole_list)+1:end) = conj(pole_list2(length(pole_list)+1:end));
+    a = poly(pole_list2);
+    H = freqz(1,a,512,'whole');
+    % H = H/(max(H)-min(H));
+    % H = H-min(H);
+    H = H/max*
+    plot(abs(H));
+    max(imag(ifft(H)))
+end
+figure;hold;
+plot(abs(H));
+(prod(pole_list2))
+plot(abs(1/(max(abs(H)))*H));
+figure;
+zplane(1,a)
