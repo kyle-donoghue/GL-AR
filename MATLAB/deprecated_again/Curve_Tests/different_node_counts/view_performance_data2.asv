@@ -1,0 +1,17 @@
+clc;clear;close all hidden;
+load("large_new_performance_data_results_n20.mat")
+%% N = 20
+figure;
+subplot(1,3,1);hold on;
+plot(S_ER_20,F_ER_20*100,'LineWidth',2);
+xlabel('Graph Density, $$\rho$$','Interpreter','latex','FontSize',14)
+ylabel('F-score','Interpreter','latex','FontSize',14)
+title('ER','Interpreter','latex','FontSize',14)
+%%
+load("large_maximum_data_results_n20_3.mat")
+%% N = 20
+figure;
+subplot(1,3,1);hold on;
+plot(S_ER_20,permute(max(F_ER_20,[],[1 2]),[3 1 2])*100,'--','LineWidth',2);
+legend('Algorithm Performance','Theoretical Performance','Interpeter','latex')
+ylim([0 109])

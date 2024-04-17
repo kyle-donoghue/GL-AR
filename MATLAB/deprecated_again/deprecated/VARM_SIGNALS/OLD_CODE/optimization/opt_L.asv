@@ -1,0 +1,15 @@
+function L = opt_L(Y, alpha, beta, A, b)
+    N = size(Y,2);
+    Q = create_Q_matrix(N,beta);
+    c = create_c_vec(N,Y,alpha);
+    A = create_constraint_matrix(N);
+    b = create_constraint_vec(N);
+    model.Q = sparse(Q);
+    model.A = sparse(A);
+    model.obj = c;
+    model.rhs = b;
+    model.sense = [char('='*ones(N+1,1));char('<'*ones(N*(N-1)/2,1))];
+    results = gurobi(model);
+    phi = results.x;
+    v = 
+end

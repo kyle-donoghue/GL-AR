@@ -1,0 +1,10 @@
+clc;clear;close all hidden;
+addpath('../creating_signals/');
+n = 4;
+N = 5e3;
+interval = 1;
+innv = 1e3;
+Fs = 1e3;
+freqs = [2;3;5;7];
+noise = 0;
+coeffs, y = sineBA(n,N,)

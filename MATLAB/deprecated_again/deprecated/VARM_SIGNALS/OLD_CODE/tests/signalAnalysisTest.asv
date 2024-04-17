@@ -1,0 +1,18 @@
+clc;clear;close all hidden;
+addpath('../creating_signals/');
+n = 4;
+N = 5e3;
+delay = 50;
+interval = 1;
+Fs = 200;
+freqs = [6;8;45;83];
+noise = 0;
+P = 20;
+[coeffs, y, x, A] = sineBA(n,P,delay,interval,N,Fs,freqs,noise);
+figure;
+subplot(1,2,1);
+plot(x);
+subplot(1,2,2);
+plot(y);
+figure
+for

@@ -1,0 +1,14 @@
+clc;clear;close all hidden;
+load('temperature_dataset.mat');
+%%
+sigma = 100;
+A = zeros(150);
+for m = 1:150
+    for n = 1:150
+        if m==n
+            continue;
+        end
+        A = exp(-(DIST(m,n)/sigma)^2);
+        A = 
+    end
+end
